@@ -87,14 +87,14 @@ index 20f2efd57b11..0552d8b9f582 100755
 --- a/scripts/setlocalversion
 +++ b/scripts/setlocalversion
 @@ -54,7 +54,7 @@ scm_version()
- 			# If only the short version is requested, don't bother
- 			# running further git commands
- 			if $short; then
--				echo "+"
-+			#	echo "+"
- 				return
- 			fi
- 			# If we are past a tagged commit (like
+ 		# If only the short version is requested, don't bother
+ 		# running further git commands
+ 		if $short; then
+-			echo "+"
++			#echo "+"
+ 			return
+ 		fi
+ 		# If we are past the tagged commit, we pretty print it.
 -- 
 2.28.0
 
@@ -848,3 +848,32 @@ index 3f6628780eb2..35a5ae1ede42 100644
 --
 2.39.1
 
+From f997578464b2c4c63e7bd1afbfef56212ee44f2d Mon Sep 17 00:00:00 2001
+From: Etienne JUVIGNY <ti3nou@gmail.com>
+Date: Mon, 6 Mar 2023 13:54:09 +0100
+Subject: Don't add -dirty versioning on unclean trees
+
+
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index ca5795e16..ad0d94477 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -85,12 +85,12 @@ scm_version()
+ 	# git-diff-index does not refresh the index, so it may give misleading
+ 	# results.
+ 	# See git-update-index(1), git-diff-index(1), and git-status(1).
+-	if {
+-		git --no-optional-locks status -uno --porcelain 2>/dev/null ||
+-		git diff-index --name-only HEAD
+-	} | read dummy; then
+-		printf '%s' -dirty
+-	fi
++	#if {
++	#	git --no-optional-locks status -uno --porcelain 2>/dev/null ||
++	#	git diff-index --name-only HEAD
++	#} | read dummy; then
++	#	printf '%s' -dirty
++	#fi
+ }
+
+ collect_files()
