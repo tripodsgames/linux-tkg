@@ -729,6 +729,8 @@ _tkg_srcprep() {
     rev=1
   elif [ "$_kver" = "602" ]; then
     rev=2
+  elif [ "$_kver" = "603" ]; then
+    rev=1
   else
     rev=0
   fi
@@ -874,6 +876,10 @@ _tkg_srcprep() {
   # buggy project C/PSI interaction workaround
   if [ "${_cpusched}" = "pds" ] || [ "${_cpusched}" = "bmq" ]; then
     _enable "PSI_DEFAULT_DISABLED"
+    # Disable MLX5_CORE on Prjc 6.3.y
+    if [ "$_kver" = "603" ]; then
+      _disable "MLX5_CORE"
+    fi
   fi
 
   if [ -n "$_custom_commandline" ]; then
@@ -939,7 +945,7 @@ _tkg_srcprep() {
   _cpu_marchs+=("k8" "k8sse3" "k10" "barcelona" "bobcat" "jaguar" "bulldozer" "piledriver")
   _cpu_marchs+=("steamroller" "excavator" "zen" "zen2" "zen3" "zen4" "mpsc" "atom" "core2" "nehalem" "westmere")
   _cpu_marchs+=("bonnell" "silvermont" "sandybridge" "ivybridge" "haswell" "broadwell" "skylake")
-  _cpu_marchs+=("skylakex" "cannonlake" "icelake" "goldmont" "goldmontplus" "cascadelake")
+  _cpu_marchs+=("skylakex" "cannonlake" "icelake" "goldmont" "goldmontplus" "cascadelake" "emeraldrapids")
   _cpu_marchs+=("cooperlake" "tigerlake" "sapphirerapids" "rocketlake" "alderlake" "raptorlake" "meteorlake")
 
   typeset -A _generic_march_map
